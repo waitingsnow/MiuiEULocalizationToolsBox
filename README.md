@@ -61,3 +61,28 @@ RemoveMod=true
 1. [从Release页面下载模块](https://github.com/waitingsnow/MiuiEULocalizationToolsBox/releases/latest/download/MiuiLocalization.zip)然后使用magisk刷入
 
 ## 已知问题
+
+## 模块结构与打包
+
+本仓库新增 `module/` 目录用于存放 Magisk 模块文件，目录结构示例：
+
+```
+module/
+├── module.prop
+├── service.sh
+├── system/
+│   └── app/ 或 priv-app/  # 放置系统应用
+└── tools/
+    └── repairPermissions.sh
+```
+
+将需要预置的系统应用按 MIUI 目录结构放入 `module/system/app/` 或 `module/system/priv-app/` 中，每个应用一个文件夹，内含 APK 文件。安装过程中的权限设置可在 `tools/repairPermissions.sh` 中实现，也可以在 `service.sh` 或 `customize.sh` 编写其他逻辑。
+
+完成内容准备后，在 `module` 目录下打包为 Zip 即可：
+
+```bash
+cd module
+zip -r ../MiuiLocalization.zip *
+```
+
+生成的 `MiuiLocalization.zip` 便可在 Magisk 中刷入。
